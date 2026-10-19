@@ -4,29 +4,24 @@ import './DomeGallery.css';
 
 const DEFAULT_IMAGES = [
   {
-    src: 'pic5.jpeg',
+    src: `${import.meta.env.BASE_URL}v1.jpeg`,
     alt: 'Memory 1',
-    message: 'this is where i saw your parents and you looked so cute in thiss pic that i kept it as my wallpaper for a day'
+    message: 'kovil la irrukura deivame en devathai ah paathu admire pannume achachoo'
   },
   {
-    src: 'pic4.jpeg',
+    src: `${import.meta.env.BASE_URL}v2.jpeg`,
     alt: 'Memory 2',
-    message: 'this is one of my favorite pics that i tried learning photoshop for a very long time so i can somehow put our images together and admire that'
+    message: 'photo clarity konjam kammi ana still athulayum nee azhaga irruka'
   },
   {
-    src: 'pic3.jpg',
+    src: `${import.meta.env.BASE_URL}v3.jpeg`,
     alt: 'Memory 3',
-    message: 'i was wondering soo much on how you soo cuteee and soo gorgeousss looking at this pic'
+    message: 'model romba azhaga irrukanga ana photographer serila nu nenaikuren, yaaru nu therila so next time maathiru'
   },
   {
-    src: 'pic2.jpg',
+    src: `${import.meta.env.BASE_URL}v4.jpeg`,
     alt: 'Memory 4',
-    message: 'thanks for sending me your fit checks and i love how you look in every one of them, great ass btw'
-  },
-  {
-    src: 'pic.png',
-    alt: 'Memory 5',
-    message: 'you would look beautiful and gorgeous af in any kind of haircut so haircut aint an issue for my cute princess'
+    message: 'nalla dramatic reflection'
   }
 ];
 

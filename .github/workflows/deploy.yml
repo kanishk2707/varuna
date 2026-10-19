@@ -25,13 +25,13 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: cd birthday-website && npm install
+        run: cd devathai && npm install
       - name: Build
-        run: cd birthday-website && npm run build
+        run: cd devathai && npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./birthday-website/dist
+          path: ./devathai/dist
 
   deploy:
     environment:

@@ -7,7 +7,7 @@ interface OpeningProps {
   girlfriendName?: string;
 }
 
-export default function Opening({ onEnter, girlfriendName = 'My Goddess' }: OpeningProps) {
+export default function Opening({ onEnter, girlfriendName = 'My Devathai' }: OpeningProps) {
   const [showName, setShowName] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -60,12 +60,12 @@ export default function Opening({ onEnter, girlfriendName = 'My Goddess' }: Open
             className="text-xl md:text-2xl text-center max-w-2xl"
             style={{
               fontFamily: 'Cormorant Garamond, serif',
-              color: '#5a4a42',
+              color: '#d4af37',
               fontStyle: 'italic',
               letterSpacing: '0.03em',
             }}
           >
-            For the girl who changed my world.
+            To the girl who i love
           </p>
         </div>
 

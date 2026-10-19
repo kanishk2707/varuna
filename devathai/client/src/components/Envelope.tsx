@@ -10,6 +10,16 @@ export function Envelope({ onOpen }: EnvelopeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dragY, setDragY] = useState(0);
 
+  const handleOpen = () => {
+    if (isTorn || isOpen) return;
+    setIsTorn(true);
+    setDragY(0);
+    setTimeout(() => {
+      setIsOpen(true);
+      onOpen?.();
+    }, 1000);
+  };
+
   const bind = useDrag(({ down, movement: [, my], velocity: [, vy], direction: [, dy] }) => {
     if (isTorn || isOpen) return;
 
@@ -21,12 +31,7 @@ export function Envelope({ onOpen }: EnvelopeProps) {
     const isTearThresholdMet = my < -40 || (vy > 0.5 && dy < 0);
 
     if (!down && isTearThresholdMet) {
-      setIsTorn(true);
-      setDragY(0); // Let CSS animation take over
-      setTimeout(() => {
-        setIsOpen(true);
-        onOpen?.();
-      }, 1000);
+      handleOpen();
     } else {
       // Snap back if released before threshold
       setDragY(down ? limitedY : 0);
@@ -47,7 +52,7 @@ export function Envelope({ onOpen }: EnvelopeProps) {
         @keyframes popOutLetter {
           0% { transform: scale(0.8) translateY(0); z-index: 10; opacity: 0; }
           10% { opacity: 1; }
-          100% { transform: scale(1.4) translateY(-10px); z-index: 50; opacity: 1; }
+          100% { transform: scale(1.08) translateY(-20px); z-index: 50; opacity: 1; }
         }
         
         .animate-tear-top {
@@ -89,7 +94,7 @@ export function Envelope({ onOpen }: EnvelopeProps) {
           }}
         >
           <div
-            className="w-72 p-8 rounded-lg shadow-2xl bg-white"
+            className="w-[330px] sm:w-[380px] max-w-[90vw] max-h-[75vh] overflow-y-auto p-6 sm:p-7 rounded-xl shadow-2xl bg-white"
             style={{
               background: 'linear-gradient(135deg, #f9f4ed 0%, #f3ebe2 100%)',
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
@@ -109,28 +114,30 @@ export function Envelope({ onOpen }: EnvelopeProps) {
               }}
             />
 
-            {/* Poem text */}
+            {/* Letter text */}
             <p
-              className="text-center relative z-10"
+              className="text-left relative z-10"
               style={{
-                fontFamily: 'Dancing Script, cursive',
-                fontSize: '0.9rem',
-                color: '#3a2a22',
-                lineHeight: '1.6',
+                fontFamily: '"Shadows Into Light", cursive',
+                fontSize: '1.25rem',
+                color: '#2b1d16',
+                lineHeight: '1.75',
                 fontWeight: 600,
+                letterSpacing: '0.02em',
               }}
             >
-              To my princess,<br/>
-              thanks for making my life much better and happier, i wasnt just trying to be romantic or whatever when i said i would do anything for you or even bend realities for you, i would do my everything to make you happy and you wouldnt know how much i love you because im trying to figure out the same, i just know i love you more than anything<br/><br/>
-              dont expect similar thing for our 1 year anniversary btw, this already took me more than 1.5 months 😭🙏
+              To my varuna<br/><br/>
+              romba naal ah pantu irrunthen intha website ah ana inniku nee light ah tension ah irrukiye nu intha note oda content mattum maathi unaku anupuren, enanamo eluthirunthen that would bend realities for you, tear the skies for you nu, still paravala, itha paathu un mood change aaguma idk still try thaan, but nee epdi irrunthalum, kovama irrunthalum upset ah irrunthalum i would love you and will love you more to the most irrespective of whether its sunshine or not between us, i would still try to brighten up your day so chill on me<br/><br/>
+              enaku itha panni mudikave romba naal achu en skills eh ivolo thaan 😭🙏, ethukum ivolo effort lam potathu illa, intha website kuda konja naal alter pannitu anupalam nu thaan paathen but alright
             </p>
           </div>
         </div>
 
         {/* Cover Halves */}
-        {/* Top Half (Draggable) */}
+        {/* Top Half (Draggable & Clickable) */}
         <div
           {...bind()}
+          onClick={handleOpen}
           className={`absolute inset-0 clip-tear-top shadow-xl ${isTorn ? 'animate-tear-top pointer-events-none' : 'cursor-grab active:cursor-grabbing'}`}
           style={{
             background: 'linear-gradient(135deg, #e8dfd5 0%, #d8cec3 100%)',
@@ -144,7 +151,7 @@ export function Envelope({ onOpen }: EnvelopeProps) {
         >
           {/* Decorative wax seal top half */}
           <div 
-            className="absolute top-1/2 left-1/2 w-12 h-12 rounded-full -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-1/2 left-1/2 w-12 h-12 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #a32a2a, #7a1c1c)',
               boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2)',
@@ -155,7 +162,8 @@ export function Envelope({ onOpen }: EnvelopeProps) {
 
         {/* Bottom Half */}
         <div
-          className={`absolute inset-0 clip-tear-bottom shadow-xl ${isTorn ? 'animate-fall-bottom pointer-events-none' : ''}`}
+          onClick={handleOpen}
+          className={`absolute inset-0 clip-tear-bottom shadow-xl ${isTorn ? 'animate-fall-bottom pointer-events-none' : 'cursor-pointer'}`}
           style={{
             background: 'linear-gradient(135deg, #e8dfd5 0%, #d8cec3 100%)',
             transformOrigin: 'bottom center',
@@ -178,7 +186,7 @@ export function Envelope({ onOpen }: EnvelopeProps) {
         {/* Instructions */}
         {!isTorn && (
           <div className="absolute -bottom-12 left-0 right-0 text-center animate-pulse z-30 pointer-events-none">
-            <span className="text-white/70 text-sm tracking-widest uppercase font-light">Drag up to Tear Open</span>
+            <span className="text-white/70 text-sm tracking-widest uppercase font-light">Drag up or Click to Tear Open</span>
           </div>
         )}
       </div>

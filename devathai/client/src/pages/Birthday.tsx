@@ -44,17 +44,15 @@ export default function Birthday() {
           }}
         >
           <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-light text-center"
+            className="text-4xl md:text-6xl lg:text-7xl font-light text-center px-4 max-w-4xl"
             style={{
               fontFamily: 'Playfair Display, serif',
               color: '#2a1e19',
-              letterSpacing: '0.05em',
-              lineHeight: '1.2',
+              letterSpacing: '0.03em',
+              lineHeight: '1.3',
             }}
           >
-            Happy Birthday
-            <br />
-            to my Goddess
+            Kalaila la paapa i guess so goodmorning thangame
           </h1>
         </div>
       </div>

@@ -13,7 +13,7 @@ export default function Gallery() {
             letterSpacing: '0.05em',
           }}
         >
-          My Princess
+          My devathai
         </h2>
       </div>
 
