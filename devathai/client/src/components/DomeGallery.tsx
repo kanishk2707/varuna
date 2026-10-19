@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
@@ -290,7 +291,7 @@ export default function DomeGallery({
         const dyTotal = evt.clientY - startPosRef.current.y;
         if (!movedRef.current) {
           const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
-          if (dist2 > 16) movedRef.current = true;
+          if (dist2 > 180) movedRef.current = true;
         }
         const nextX = clamp(
           startRotRef.current.x - dyTotal / dragSensitivity,
@@ -306,8 +307,19 @@ export default function DomeGallery({
           draggingRef.current = false;
           if (movedRef.current) {
             lastDragEndAt.current = performance.now();
+            startInertia(velocity[0], velocity[1]);
+          } else {
+            // Finger lifted without dragging -> direct tap on mobile!
+            const hitEl = (evt.target as HTMLElement)?.closest('.item') 
+              || (document.elementFromPoint(evt.clientX, evt.clientY) as HTMLElement)?.closest('.item');
+            if (hitEl) {
+              const src = hitEl.getAttribute('data-src');
+              const message = hitEl.getAttribute('data-message');
+              if (src) {
+                setSelectedPhoto({ src, message: message || '' });
+              }
+            }
           }
-          startInertia(velocity[0], velocity[1]);
         }
       }
     },
@@ -315,17 +327,9 @@ export default function DomeGallery({
   );
 
   const onTileClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (draggingRef.current) return;
+    (e: React.MouseEvent<HTMLDivElement> | React.PointerEvent<HTMLDivElement>, src: string, message: string) => {
       if (movedRef.current) return;
       if (performance.now() - lastDragEndAt.current < 80) return;
-      if (openingRef.current) return;
-      
-      const currentTarget = e.currentTarget;
-      const parent = currentTarget.parentElement as HTMLElement;
-      const message = parent?.dataset.message || '';
-      const src = parent?.dataset.src || '';
-      
       setSelectedPhoto({ src, message });
     },
     []
@@ -375,7 +379,8 @@ export default function DomeGallery({
                   role="button"
                   tabIndex={0}
                   aria-label={it.alt || 'Open image'}
-                  onPointerUp={onTileClick}
+                  onClick={(e) => onTileClick(e, it.src, it.message || '')}
+                  onPointerUp={(e) => onTileClick(e, it.src, it.message || '')}
                 >
                   <img src={it.src} draggable={false} alt={it.alt} />
                 </div>
@@ -389,56 +394,55 @@ export default function DomeGallery({
         <div className="edge-fade edge-fade--top" />
         <div className="edge-fade edge-fade--bottom" />
 
-
-
         <div className="viewer" ref={viewerRef}>
           <div ref={scrimRef} className="scrim" />
           <div ref={frameRef} className="frame" />
         </div>
       </main>
 
-      {/* Photo Details Modal (Moved outside main for better stacking) */}
-      {selectedPhoto && (
+      {/* Photo Details Modal - Portaled to document.body for flawless mobile display */}
+      {selectedPhoto && typeof document !== 'undefined' && createPortal(
         <div 
-          className="absolute inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-          style={{ pointerEvents: 'auto' }}
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          style={{ pointerEvents: 'auto', touchAction: 'auto' }}
           onClick={() => setSelectedPhoto(null)}
         >
           <div 
-            className="relative max-w-lg sm:max-w-2xl md:max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center rounded-2xl p-4 sm:p-6 glass-card animate-in fade-in zoom-in duration-300"
+            className="relative max-w-lg sm:max-w-2xl md:max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center rounded-2xl p-4 sm:p-6 glass-card animate-in fade-in zoom-in duration-200"
             style={{
-              background: 'rgba(18, 12, 10, 0.88)',
-              backdropFilter: 'blur(16px)',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
-              border: '1px solid rgba(212, 175, 55, 0.3)'
+              background: 'rgba(18, 12, 10, 0.92)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 25px 60px -12px rgba(0, 0, 0, 0.8)',
+              border: '1px solid rgba(212, 175, 55, 0.4)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={() => setSelectedPhoto(null)}
-              className="absolute top-3 right-3 text-white/70 hover:text-white transition-colors p-2 z-10"
+              className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors p-2 z-10 rounded-full bg-white/10"
               aria-label="Close"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
             <img 
               src={selectedPhoto.src} 
               alt="Memory" 
-              className="max-h-[48vh] sm:max-h-[60vh] w-auto object-contain rounded-lg shadow-2xl mb-4 sm:mb-6" 
+              className="max-h-[48vh] sm:max-h-[60vh] w-auto max-w-full object-contain rounded-lg shadow-2xl mb-4 sm:mb-6" 
             />
             
             <p 
               className="text-base sm:text-lg md:text-xl text-center text-white/95 px-2 font-medium leading-relaxed"
               style={{
                 fontFamily: 'Playfair Display, serif',
-                textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                textShadow: '0 2px 4px rgba(0,0,0,0.6)',
               }}
             >
               {selectedPhoto.message}
             </p>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

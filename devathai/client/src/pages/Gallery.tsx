@@ -8,7 +8,7 @@ export default function Gallery({ onNext }: GalleryProps) {
   return (
     <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-warm-cream to-soft-ivory">
       {/* Section title */}
-      <div className="absolute top-8 sm:top-12 left-0 right-0 z-30 text-center">
+      <div className="absolute top-8 sm:top-12 left-0 right-0 z-30 text-center pointer-events-none px-4">
         <h2
           className="text-4xl md:text-5xl font-light"
           style={{
@@ -19,6 +19,9 @@ export default function Gallery({ onNext }: GalleryProps) {
         >
           My devathai
         </h2>
+        <p className="text-xs sm:text-sm text-[#5a4a42]/75 mt-1 font-light tracking-wider">
+          Tap any photo to view caption
+        </p>
       </div>
 
       {/* Dome Gallery */}
