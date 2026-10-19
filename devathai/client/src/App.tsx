@@ -10,9 +10,19 @@ import Birthday from './pages/Birthday';
 
 function App() {
   const galleryRef = useRef<HTMLDivElement>(null);
+  const poemRef = useRef<HTMLDivElement>(null);
+  const birthdayRef = useRef<HTMLDivElement>(null);
 
   const handleOpeningEnter = () => {
     galleryRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleGalleryNext = () => {
+    poemRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handlePoemNext = () => {
+    birthdayRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -20,24 +30,24 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <div className="w-full min-h-screen">
+          <div className="w-full min-h-[100dvh]">
             {/* Opening Section */}
-            <div className="w-full h-screen">
+            <div className="w-full h-[100dvh]">
               <Opening onEnter={handleOpeningEnter} />
             </div>
             
             {/* Gallery Section */}
-            <div ref={galleryRef} className="w-full h-screen">
-              <Gallery />
+            <div ref={galleryRef} className="w-full h-[100dvh]">
+              <Gallery onNext={handleGalleryNext} />
             </div>
             
             {/* Poem Section */}
-            <div className="w-full h-screen">
-              <Poem />
+            <div ref={poemRef} className="w-full h-[100dvh]">
+              <Poem onNext={handlePoemNext} />
             </div>
             
             {/* Birthday Section */}
-            <div className="w-full h-screen">
+            <div ref={birthdayRef} className="w-full h-[100dvh]">
               <Birthday />
             </div>
           </div>

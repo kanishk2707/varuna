@@ -11,7 +11,7 @@ export default function Birthday() {
   }, []);
 
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       {/* Garden Background */}
       <GardenBackground />
 

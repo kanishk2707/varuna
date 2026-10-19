@@ -26,7 +26,7 @@ export default function Opening({ onEnter, girlfriendName = 'My Devathai' }: Ope
   }, []);
 
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       <StarryNightBackground />
 
       {/* Content */}

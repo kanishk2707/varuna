@@ -1,8 +1,12 @@
 import { Envelope } from '@/components/Envelope';
 
-export default function Poem() {
+interface PoemProps {
+  onNext?: () => void;
+}
+
+export default function Poem({ onNext }: PoemProps) {
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       {/* Background gradient */}
       <div
         className="absolute inset-0"
@@ -30,7 +34,7 @@ export default function Poem() {
       />
 
       {/* Section title */}
-      <div className="absolute top-12 left-0 right-0 z-30 text-center">
+      <div className="absolute top-8 sm:top-12 left-0 right-0 z-30 text-center">
         <h2
           className="text-4xl md:text-5xl font-light"
           style={{
@@ -44,11 +48,30 @@ export default function Poem() {
       </div>
 
       {/* Envelope */}
-      <div className="relative z-20 w-full h-full flex items-center justify-center px-6">
+      <div className="relative z-20 w-full h-full flex items-center justify-center px-4 sm:px-6">
         <Envelope />
       </div>
 
-
+      {/* Scroll to Closing Button */}
+      {onNext && (
+        <div className="absolute bottom-5 sm:bottom-7 left-0 right-0 z-30 flex justify-center pointer-events-auto">
+          <button
+            onClick={onNext}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+            style={{
+              background: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(10px)',
+              color: '#3a2a22',
+              border: '1px solid rgba(212, 175, 55, 0.5)',
+              fontFamily: 'Playfair Display, serif',
+              letterSpacing: '0.03em'
+            }}
+          >
+            <span>One more thing</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-bounce"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          </button>
+        </div>
+      )}
     </section>
   );
 }

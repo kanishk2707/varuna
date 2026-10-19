@@ -50,9 +50,9 @@ export function Envelope({ onOpen }: EnvelopeProps) {
           100% { transform: translateY(200px) rotate(10deg); opacity: 0; }
         }
         @keyframes popOutLetter {
-          0% { transform: scale(0.8) translateY(0); z-index: 10; opacity: 0; }
+          0% { transform: scale(0.85) translateY(0); z-index: 10; opacity: 0; }
           10% { opacity: 1; }
-          100% { transform: scale(1.08) translateY(-20px); z-index: 50; opacity: 1; }
+          100% { transform: scale(1) translateY(-10px); z-index: 50; opacity: 1; }
         }
         
         .animate-tear-top {
@@ -94,12 +94,13 @@ export function Envelope({ onOpen }: EnvelopeProps) {
           }}
         >
           <div
-            className="w-[330px] sm:w-[380px] max-w-[90vw] max-h-[75vh] overflow-y-auto p-6 sm:p-7 rounded-xl shadow-2xl bg-white"
+            className="w-[90vw] max-w-[390px] max-h-[72vh] overflow-y-auto p-5 sm:p-7 rounded-xl shadow-2xl bg-white"
             style={{
               background: 'linear-gradient(135deg, #f9f4ed 0%, #f3ebe2 100%)',
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
               border: '1px solid rgba(212, 175, 55, 0.3)',
               position: 'relative',
+              WebkitOverflowScrolling: 'touch',
             }}
           >
             {/* Coffee stain effect */}

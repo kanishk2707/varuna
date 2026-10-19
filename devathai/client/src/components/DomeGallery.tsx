@@ -405,31 +405,34 @@ export default function DomeGallery({
           onClick={() => setSelectedPhoto(null)}
         >
           <div 
-            className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center rounded-2xl p-6 glass-card animate-in fade-in zoom-in duration-300"
+            className="relative max-w-lg sm:max-w-2xl md:max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center rounded-2xl p-4 sm:p-6 glass-card animate-in fade-in zoom-in duration-300"
             style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+              background: 'rgba(18, 12, 10, 0.88)',
+              backdropFilter: 'blur(16px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
+              border: '1px solid rgba(212, 175, 55, 0.3)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={() => setSelectedPhoto(null)}
-              className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2"
+              className="absolute top-3 right-3 text-white/70 hover:text-white transition-colors p-2 z-10"
+              aria-label="Close"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
             <img 
               src={selectedPhoto.src} 
               alt="Memory" 
-              className="max-h-[70vh] object-contain rounded-lg shadow-2xl mb-6" 
+              className="max-h-[48vh] sm:max-h-[60vh] w-auto object-contain rounded-lg shadow-2xl mb-4 sm:mb-6" 
             />
             
             <p 
-              className="text-2xl text-center text-white/90"
+              className="text-base sm:text-lg md:text-xl text-center text-white/95 px-2 font-medium leading-relaxed"
               style={{
                 fontFamily: 'Playfair Display, serif',
-                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                textShadow: '0 2px 4px rgba(0,0,0,0.5)',
               }}
             >
               {selectedPhoto.message}
